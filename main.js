@@ -2,7 +2,8 @@ const electron = require('electron');
 const {
   app,
   BrowserWindow,
-  ipcMain
+  ipcMain,
+  globalShortcut
 } = electron;
 //const Menu = electron.Menu;
 //const Tray = electron.tray;
@@ -36,6 +37,11 @@ const createWindow = () => {
 
   win.on('closed', () => {
     win = null;
+  });
+
+  // Disable reload
+  const ret = globalShortcut.register('CommandOrControl+R', () => {
+    // doing nothing here
   });
 }
 

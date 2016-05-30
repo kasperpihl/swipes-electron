@@ -28,8 +28,8 @@ const createWindow = () => {
     icon: './icons/logo-64.png'
   });
 
-  win.loadURL('http://localhost:3000/');
-  win.webContents.openDevTools();
+  win.loadURL('https://dev.swipesapp.com/');
+  //win.webContents.openDevTools();
 
   win.on('page-title-updated', (e) => {
     e.preventDefault();

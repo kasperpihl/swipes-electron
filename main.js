@@ -24,7 +24,8 @@ const createWindow = () => {
   win = new BrowserWindow({
     width: 900,
     height: 700,
-    title: 'Swipes'
+    title: 'Swipes',
+    icon: './icons/logo-64.png'
   });
 
   win.loadURL('http://localhost:3000/');

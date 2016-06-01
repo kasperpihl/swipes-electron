@@ -93,8 +93,13 @@ ipcMain.on('oauth-init', (event, arg) => {
     width: 800,
     height: 600,
     title: arg.serviceName,
-    show: false
+    show: false,
+    webPreferences: {
+      nodeIntegration: false
+    }
   });
+
+  oauthWin.webContents.openDevTools();
 
   oauthWin.on('page-title-updated', (e) => {
     e.preventDefault();

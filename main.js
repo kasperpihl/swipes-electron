@@ -99,7 +99,9 @@ ipcMain.on('oauth-init', (event, arg) => {
     }
   });
 
-  oauthWin.webContents.openDevTools();
+  if (env === 'dev') {
+    oauthWin.webContents.openDevTools();
+  }
 
   oauthWin.on('page-title-updated', (e) => {
     e.preventDefault();

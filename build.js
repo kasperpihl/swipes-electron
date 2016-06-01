@@ -1,49 +1,77 @@
+'use strict';
+
+const argv = require('argv');
 const packager = require('electron-packager');
+const jsonfile = require('jsonfile');
+const config = require('./config.json');
 
-// Package for linux
-const linux = {
-  arch: 'all',
-  dir: '.',
-  platform: 'linux',
-  name: 'Swipes'
+const origConfig = Object.assign({}, config);
+
+argv.option([
+  {
+  	name: 'os',
+  	type: 'string',
+  	description: '(required) Which operationg system - osx, linux, windows',
+  	example: "'node build.js --os=osx'"
+  },
+  {
+  	name: 'env',
+  	type: 'string',
+  	description: 'Which environment - dev (default), production',
+  	example: "'node build.js --env=dev'"
+  },
+]);
+
+const args = argv.run();
+const env = args.options.env || 'dev';
+const os = args.options.os;
+
+if (!os) {
+  console.log('os option is required');
+  process.exit(1);
 }
 
-// Package for Windows
-const windows = {
-  arch: 'all',
-  dir: '.',
-  platform: 'win32',
-  icon: './icons/logo-64.ico',
-  name: 'Swipes'
+if (env === 'production') {
+  config.appUrl = 'https://dev.swipesapp.com';
+  config.env = 'production';
+  jsonfile.writeFileSync('./config.json', config, {spaces: 2});
 }
 
-// Package of OS X
-const osx = {
-  arch: 'all',
-  dir: '.',
-  platform: 'darwin',
-  icon: './icons/logo-64.icns',
-  name: 'Swipes'
+const osOptions = {
+  linux: {
+    arch: 'all',
+    dir: '.',
+    platform: 'linux',
+    name: 'Swipes Workspace',
+    out: './builds'
+  },
+  windows: {
+    arch: 'all',
+    dir: '.',
+    platform: 'win32',
+    icon: './icons/logo.ico',
+    name: 'Swipes Workspace',
+    out: './builds'
+  },
+  osx: {
+    arch: 'all',
+    dir: '.',
+    platform: 'darwin',
+    icon: './icons/logo.icns',
+    name: 'Swipes Workspace',
+    out: './builds'
+  }
 }
 
-packager(linux, function done_callback (err, appPaths) {
+const buildOptions = osOptions[os];
+
+packager(buildOptions, function done_callback (err, appPaths) {
   if (err) {
     console.log(err);
-    return;
+    process.exit(1);
   }
 
-  packager(windows, function done_callback (err, appPaths) {
-    if (err) {
-      console.log(err);
-      return;
-    }
-
-    packager(osx, function done_callback (err, appPaths) {
-      if (err) {
-        console.log(err);
-      }
-
-      console.log('ALL DONE');
-    })
-  })
+  // Reset the config
+  jsonfile.writeFileSync('./config.json', origConfig, {spaces: 2});
+  console.log('ALL DONE');
 })

@@ -1,4 +1,7 @@
 const electron = require('electron');
+const config = require('./config.json');
+const env = config.env || 'dev';
+
 const {
   app,
   BrowserWindow,
@@ -21,15 +24,19 @@ let win;
 //let isQuitting = false;
 
 const createWindow = () => {
-  win = new BrowserWindow({
+  const winOptions = {
     width: 900,
     height: 700,
-    title: 'Swipes',
-    icon: './icons/logo-64.png'
-  });
+    title: 'Swipes Workspace',
+    icon: './icons/logo.png'
+  };
 
-  win.loadURL('https://dev.swipesapp.com/');
-  //win.webContents.openDevTools();
+  win = new BrowserWindow(winOptions);
+  win.loadURL(config.appUrl);
+
+  if (env === 'dev') {
+    win.webContents.openDevTools();
+  }
 
   win.on('page-title-updated', (e) => {
     e.preventDefault();

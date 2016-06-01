@@ -4,7 +4,9 @@
   "version": "0.0.1",
   "main": "main.js",
   "dependencies": {
+    "argv": "0.0.2",
+    "electron-packager": "7.0.2",
     "electron-prebuilt": "^1.1.0",
-    "electron-packager": "7.0.2"
+    "jsonfile": "^2.3.1"
   }
 }

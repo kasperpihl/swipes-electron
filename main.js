@@ -1,4 +1,5 @@
 const electron = require('electron');
+const shell = require('electron').shell;
 const config = require('./config.json');
 const env = config.env || 'dev';
 
@@ -44,6 +45,13 @@ const createWindow = () => {
 
   win.on('closed', () => {
     win = null;
+  });
+
+  const webContents = win.webContents;
+
+  webContents.on('new-window', function(event, url){
+    event.preventDefault();
+    shell.openExternal(url);
   });
 }
 

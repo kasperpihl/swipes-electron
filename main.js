@@ -64,7 +64,6 @@ ipcMain.on('oauth-init', (event, arg) => {
     let code = (raw_code && raw_code.length > 1) ? raw_code[1] : null;
     let winTitle = null;
 
-    // If there is a code, proceed to get token from github
     if (code) {
       winTitle = oauthWin.getTitle();
       code = decodeURIComponent(code);
@@ -107,10 +106,12 @@ ipcMain.on('oauth-init', (event, arg) => {
   });
 
   oauthWin.webContents.on('will-navigate', function (event, url) {
+    console.log(url)
     handleCallback(url);
   });
 
   oauthWin.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
+    console.log(newUrl)
     handleCallback(newUrl);
   });
 

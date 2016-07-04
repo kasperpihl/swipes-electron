@@ -1,8 +1,7 @@
 var {ipcRenderer} = require('electron');
-window.parent = {};
-parent.postMessage = function(data){
+window.workspaceSendFunction = function(data){
 	ipcRenderer.sendToHost('message', data);
 }
 ipcRenderer.on('message', (event, data) => {
-	swipes._com.receivedMessageFromTarget(data);
+	swipes._com.receivedCommand(data);
 });

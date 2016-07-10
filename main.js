@@ -1,11 +1,13 @@
 const electron = require('electron');
 const shell = require('electron').shell;
 const config = require('./config.json');
+const defaultMenu = require('./menu.js')();
 const env = config.env || 'dev';
 
 const {
   app,
   BrowserWindow,
+  Menu,
   ipcMain
 } = electron;
 
@@ -18,6 +20,7 @@ const createWindow = () => {
     title: 'Swipes Workspace',
     icon: './icons/logo.png'
   };
+  Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu));
 
   win = new BrowserWindow(winOptions);
   win.loadURL(config.appUrl);
@@ -40,6 +43,7 @@ const createWindow = () => {
     event.preventDefault();
     shell.openExternal(url);
   });
+  
 }
 
 app.on('ready', createWindow);

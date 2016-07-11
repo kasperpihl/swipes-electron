@@ -20,6 +20,7 @@ const createWindow = () => {
     title: 'Swipes Workspace',
     icon: './icons/logo.png'
   };
+  
   Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu));
 
   win = new BrowserWindow(winOptions);
@@ -43,7 +44,7 @@ const createWindow = () => {
     event.preventDefault();
     shell.openExternal(url);
   });
-  
+
 }
 
 app.on('ready', createWindow);
@@ -110,12 +111,10 @@ ipcMain.on('oauth-init', (event, arg) => {
   });
 
   oauthWin.webContents.on('will-navigate', function (event, url) {
-    console.log(url)
     handleCallback(url);
   });
 
   oauthWin.webContents.on('did-get-redirect-request', function (event, oldUrl, newUrl) {
-    console.log(newUrl)
     handleCallback(newUrl);
   });
 

@@ -18,9 +18,12 @@ const createWindow = () => {
     width: 900,
     height: 700,
     title: 'Swipes Workspace',
-    icon: './icons/logo.png'
+    icon: './icons/logo.png',
+    webPreferences: {
+      preload: __dirname + '/preload/main-preload.js'
+    }
   };
-  
+
   Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu));
 
   win = new BrowserWindow(winOptions);

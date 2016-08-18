@@ -18,6 +18,8 @@ const createWindow = () => {
     width: 900,
     height: 700,
     title: 'Swipes Workspace',
+    titleBarStyle: 'hidden-inset',
+    acceptFirstMouse: true,
     icon: './icons/logo.png',
     webPreferences: {
       preload: __dirname + '/preload/main-preload.js'

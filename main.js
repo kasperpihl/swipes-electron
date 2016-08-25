@@ -1,6 +1,7 @@
 const electron = require('electron');
 const shell = require('electron').shell;
 const config = require('./config.json');
+const notifier = require('node-notifier');
 const defaultMenu = require('./menu.js')();
 const env = config.env || 'dev';
 
@@ -18,7 +19,6 @@ const createWindow = () => {
     width: 900,
     height: 700,
     title: 'Swipes Workspace',
-    titleBarStyle: 'hidden-inset',
     acceptFirstMouse: true,
     icon: './icons/logo.png',
     webPreferences: {
@@ -65,6 +65,19 @@ app.on('activate', () => {
     createWindow();
   }
 });
+ipcMain.on('notification', (event, arg) => {
+  notifier.notify(arg);
+})
+
+ipcMain.on('showItemInFolder', (event, arg) => {
+  shell.showItemInFolder(arg);
+})
+ipcMain.on('openItem', (event, arg) => {
+  shell.openItem(arg);
+})
+ipcMain.on('openExternal', (event, arg) => {
+  shell.openExternal(arg);
+})
 
 // Handle oauth
 ipcMain.on('oauth-init', (event, arg) => {

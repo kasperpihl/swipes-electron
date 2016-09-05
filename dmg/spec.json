@@ -1,0 +1,10 @@
+{
+  "title": "Install Swipes",
+  "background": "swipes-dmg-background.png",
+  "icon": "swipes-logo-circle.icns",
+  "icon-size": 80,
+  "contents": [
+    { "x": 130, "y": 289, "type": "file", "path": "../builds/Swipes Workspace-darwin-x64/Swipes Workspace.app" },
+    { "x": 520, "y": 282, "type": "link", "path": "/Applications" }
+  ]
+}

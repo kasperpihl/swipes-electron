@@ -72,12 +72,13 @@ const osOptions = {
 const buildOptions = osOptions[os];
 
 packager(buildOptions, function done_callback (err, appPaths) {
+  // Reset the config
+  jsonfile.writeFileSync('./config.json', origConfig, {spaces: 2});
+
   if (err) {
     console.log(err);
     process.exit(1);
   }
 
-  // Reset the config
-  jsonfile.writeFileSync('./config.json', origConfig, {spaces: 2});
   console.log('ALL DONE');
 })

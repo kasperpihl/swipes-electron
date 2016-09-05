@@ -31,6 +31,12 @@ if (!os) {
   process.exit(1);
 }
 
+if (env === 'staging') {
+  config.appUrl = 'https://staging.swipesapp.com';
+  config.env = 'staging';
+  jsonfile.writeFileSync('./config.json', config, {spaces: 2});
+}
+
 if (env === 'production') {
   config.appUrl = 'https://dev.swipesapp.com';
   config.env = 'production';

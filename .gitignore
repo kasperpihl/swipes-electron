@@ -34,3 +34,6 @@ node_modules
 
 # All the build folders
 builds/
+
+# Dynamically created config files
+app-state.json

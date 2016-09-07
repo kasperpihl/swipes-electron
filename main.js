@@ -3,6 +3,7 @@ const shell = require('electron').shell;
 const config = require('./config.json');
 const notifier = require('node-notifier');
 const defaultMenu = require('./menu.js')();
+const appState = require('./app-state.js');
 const env = config.env || 'dev';
 
 const {
@@ -11,13 +12,14 @@ const {
   Menu,
   ipcMain
 } = electron;
+const currentAppState = appState.get();
 
 let win;
 
 const createWindow = () => {
   const winOptions = {
-    width: 900,
-    height: 700,
+    width: currentAppState.width,
+    height: currentAppState.height,
     title: 'Swipes Workspace',
     acceptFirstMouse: true,
     icon: './icons/logo.png',
@@ -29,7 +31,16 @@ const createWindow = () => {
   Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu));
 
   win = new BrowserWindow(winOptions);
+  win.setBounds(currentAppState, true);
   win.loadURL(config.appUrl);
+
+  if (currentAppState.maximized) {
+    win.maximize();
+  }
+
+  if (currentAppState.fullScreen) {
+    win.setFullScreen(true);
+  }
 
   if (env === 'dev') {
     win.webContents.openDevTools();
@@ -38,6 +49,14 @@ const createWindow = () => {
   win.on('page-title-updated', (e) => {
     e.preventDefault();
   });
+
+  win.on('resize', () => {
+    appState.save(win);
+  })
+
+  win.on('move', () => {
+    appState.save(win);
+  })
 
   win.on('closed', () => {
     win = null;
@@ -49,7 +68,6 @@ const createWindow = () => {
     event.preventDefault();
     shell.openExternal(url);
   });
-
 }
 
 app.on('ready', createWindow);

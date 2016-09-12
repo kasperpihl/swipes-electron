@@ -1,4 +1,5 @@
 const electron = require('electron');
+const fs = require('fs');
 const shell = require('electron').shell;
 const config = require('./config.json');
 const notifier = require('node-notifier');
@@ -88,7 +89,16 @@ ipcMain.on('notification', (event, arg) => {
 })
 
 ipcMain.on('showItemInFolder', (event, arg) => {
-  shell.showItemInFolder(arg);
+  
+  try{
+    fs.statSync(arg);
+    event.returnValue = true;
+    shell.showItemInFolder(arg);
+  }
+  catch(e){
+    event.returnValue = false;
+    console.log('could not find file');
+  }
 })
 ipcMain.on('openItem', (event, arg) => {
   shell.openItem(arg);

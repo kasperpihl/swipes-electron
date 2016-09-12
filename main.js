@@ -32,7 +32,7 @@ const createWindow = () => {
   Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu));
 
   win = new BrowserWindow(winOptions);
-  win.setBounds(currentAppState, true);
+  win.setBounds(Object.assign(win.getBounds(), currentAppState), true);
   win.loadURL(config.appUrl);
 
   if (currentAppState.maximized) {

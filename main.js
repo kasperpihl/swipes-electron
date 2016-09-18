@@ -89,7 +89,7 @@ ipcMain.on('notification', (event, arg) => {
 })
 
 ipcMain.on('showItemInFolder', (event, arg) => {
-  
+
   try{
     fs.statSync(arg);
     event.returnValue = true;
@@ -110,7 +110,7 @@ ipcMain.on('openExternal', (event, arg) => {
 // Handle oauth
 ipcMain.on('oauth-init', (event, arg) => {
   const handleCallback = (url) => {
-    const raw_code = /code=([^&]*)/.exec(url) || null;
+    const raw_code = /[\?|\&]code=([^&]*)/.exec(url) || null;
     const error = /\?error=(.+)$/.exec(url);
     let code = (raw_code && raw_code.length > 1) ? raw_code[1] : null;
     let winTitle = null;

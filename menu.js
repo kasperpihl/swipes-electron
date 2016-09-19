@@ -1,6 +1,6 @@
 var app = require('electron').app;
 
-module.exports = function() {
+module.exports = function(mainWindow) {
   var template = [
     {
       label: 'Edit',
@@ -37,6 +37,27 @@ module.exports = function() {
           label: 'Select All',
           accelerator: 'CmdOrCtrl+A',
           role: 'selectall'
+        },
+        {
+          type: 'separator'
+        },
+        {
+          label: 'Find',
+          accelerator: 'CmdOrCtrl+F',
+          click: function(item, focusedWindow) {
+            if (focusedWindow) {
+              mainWindow.webContents.send('toggle-find');
+            }
+          }
+        },
+        {
+          label: 'New tile',
+          accelerator: 'CmdOrCtrl+N',
+          click: function(item, focusedWindow) {
+            if (focusedWindow) {
+              mainWindow.webContents.send('new-tile');
+            }
+          }
         },
       ]
     },

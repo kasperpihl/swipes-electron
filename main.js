@@ -3,7 +3,7 @@ const fs = require('fs');
 const shell = require('electron').shell;
 const config = require('./config.json');
 const notifier = require('node-notifier');
-const defaultMenu = require('./menu.js')();
+const defaultMenu = require('./menu.js');
 const appState = require('./app-state.js');
 const env = config.env || 'dev';
 
@@ -30,8 +30,6 @@ const createWindow = () => {
       preload: __dirname + '/preload/main-preload.js'
     }
   };
-
-  Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu));
 
   win = new BrowserWindow(winOptions);
   win.setBounds(Object.assign(win.getBounds(), currentAppState), true);
@@ -64,6 +62,8 @@ const createWindow = () => {
   win.on('closed', () => {
     win = null;
   });
+
+  Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu(win)));
 
   const webContents = win.webContents;
 

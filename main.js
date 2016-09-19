@@ -21,6 +21,8 @@ const createWindow = () => {
   const winOptions = {
     width: currentAppState.width,
     height: currentAppState.height,
+    minWidth: 800,
+    minHeight: 600,
     title: 'Swipes Workspace',
     acceptFirstMouse: true,
     icon: './icons/logo.png',

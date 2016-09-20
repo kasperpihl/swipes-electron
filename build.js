@@ -17,7 +17,7 @@ argv.option([
   {
   	name: 'env',
   	type: 'string',
-  	description: 'Which environment - dev (default), production',
+  	description: 'Which environment - dev (default), staging',
   	example: "'node build.js --env=dev'"
   },
 ]);

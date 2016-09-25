@@ -132,7 +132,9 @@ ipcMain.on('oauth-init', (event, arg) => {
         }
       })
     } else if (error) {
-      alert('Oops! Something went wrong :/ Please try again.');
+      win.webContents.send('alert-message', {
+        message: 'Oops! Something went wrong :/ Please try again.'
+      })
     }
 
     if (code || error) {

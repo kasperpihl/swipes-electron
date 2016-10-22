@@ -74,6 +74,7 @@ const createWindow = () => {
 
   win.webContents.session.on('will-download', (event, item, webContents) => {
     const id = shortId.generate();
+    const filename = item.getFilename();
 
     item.on('updated', (event, state) => {
       const total = item.getTotalBytes();
@@ -82,6 +83,7 @@ const createWindow = () => {
 
       win.webContents.send('toasty', {
         id,
+        filename,
         percentage,
         state
       })
@@ -90,6 +92,7 @@ const createWindow = () => {
     item.once('done', (event, state) => {
       win.webContents.send('toasty', {
         id,
+        filename,
         percentage: 100,
         state
       })

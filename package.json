@@ -12,7 +12,8 @@
     "electron-packager": "8.1.0",
     "electron-prebuilt": "^1.4.3",
     "jsonfile": "^2.3.1",
-    "node-notifier": "^4.6.1"
+    "node-notifier": "^4.6.1",
+    "shortid": "^2.2.6"
   },
   "optionalDependencies": {
     "appdmg": "^0.4.5"

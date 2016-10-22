@@ -1,4 +1,5 @@
 const electron = require('electron');
+const shortId = require('shortid');
 const fs = require('fs');
 const shell = require('electron').shell;
 const config = require('./config.json');
@@ -6,7 +7,6 @@ const notifier = require('node-notifier');
 const defaultMenu = require('./menu.js');
 const appState = require('./app-state.js');
 const env = config.env || 'dev';
-
 const {
   app,
   BrowserWindow,
@@ -71,6 +71,30 @@ const createWindow = () => {
     event.preventDefault();
     shell.openExternal(url);
   });
+
+  win.webContents.session.on('will-download', (event, item, webContents) => {
+    const id = shortId.generate();
+
+    item.on('updated', (event, state) => {
+      const total = item.getTotalBytes();
+      const done = item.getReceivedBytes();
+      const percentage = Math.round(done / total * 100);
+
+      win.webContents.send('toasty', {
+        id,
+        percentage,
+        state
+      })
+    })
+
+    item.once('done', (event, state) => {
+      win.webContents.send('toasty', {
+        id,
+        percentage: 100,
+        state
+      })
+    })
+  })
 }
 
 app.on('ready', createWindow);

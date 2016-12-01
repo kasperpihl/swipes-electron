@@ -21,6 +21,8 @@ const createWindow = () => {
   const winOptions = {
     width: currentAppState.width,
     height: currentAppState.height,
+    titleBarStyle: 'hidden-inset',
+    frame: false,
     minWidth: 800,
     minHeight: 600,
     title: 'Swipes Workspace',

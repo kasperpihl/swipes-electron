@@ -4,7 +4,6 @@ const argv = require('argv');
 const packager = require('electron-packager');
 const jsonfile = require('jsonfile');
 const config = require('./config.json');
-
 const origConfig = Object.assign({}, config);
 
 argv.option([
@@ -64,8 +63,44 @@ else {
         console.log(err);
         process.exit(1);
       }
+      if(buildOptions.platform === 'darwin'){
+        console.log('Packaged App. Now creating DMG');
+        var appdmg = require('appdmg');
+        var ee = appdmg({
+          source: './dmg/spec.json',
+          target: 'dist/Swipes-darwin-x64/Swipes.dmg',
+        });
+        ee.on('progress', function (info) {
+          if(info.title){
+            console.log('[ ' + info.current + '/' + info.total + '] ' + info.title);
+          }
 
-      console.log('ALL DONE');
+          // info.current is the current step
+          // info.total is the total number of steps
+          // info.type is on of 'step-begin', 'step-end'
+
+          // 'step-begin'
+          // info.title is the title of the current step
+
+          // 'step-end'
+          // info.status is one of 'ok', 'skip', 'fail'
+
+        });
+
+        ee.on('finish', function () {
+          console.log('ALL DONE');
+          // There now is a `test.dmg` file
+        });
+
+        ee.on('error', function (err) {
+          console.log('Error making DMG', err);
+          // An error occurred
+        });
+      }
+      else{
+        console.log('ALL DONE');
+      }
+
     })
   }
 

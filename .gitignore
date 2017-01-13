@@ -33,6 +33,7 @@ node_modules
 .node_repl_history
 
 # All the build folders
+dist/
 builds/
 
 # Dynamically created config files

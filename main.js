@@ -7,6 +7,7 @@ const notifier = require('node-notifier');
 const defaultMenu = require('./menu.js');
 const appState = require('./app-state.js');
 const env = config.env || 'dev';
+
 const {
   app,
   BrowserWindow,
@@ -25,7 +26,7 @@ const createWindow = () => {
     frame: false,
     minWidth: 800,
     minHeight: 600,
-    title: 'Swipes Workspace',
+    title: 'Swipes',
     acceptFirstMouse: true,
     icon: './icons/logo.png',
     webPreferences: {

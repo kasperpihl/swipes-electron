@@ -4,8 +4,9 @@
   "version": "0.0.1",
   "main": "main.js",
   "scripts": {
-    "dmg": "node node_modules/appdmg/bin/appdmg.js './dmg/spec.json' 'builds/Swipes Workspace-darwin-x64/Swipes Workspace.dmg' --verbose",
-    "start": "electron ."
+    "dmg": "node node_modules/appdmg/bin/appdmg.js './dmg/spec.json' 'dist/Swipes-darwin-x64/Swipes.dmg' --verbose",
+    "start": "electron .",
+    "build": "node build.js"
   },
   "dependencies": {
     "argv": "0.0.2",
@@ -19,6 +20,7 @@
     "appdmg": "^0.4.5"
   },
   "devDependencies": {
-    "electron": "^1.4.3"
+    "electron": "^1.4.3",
+    "electron-prebuilt": "^1.4.13"
   }
 }

@@ -9,76 +9,64 @@ const origConfig = Object.assign({}, config);
 
 argv.option([
   {
-  	name: 'os',
-  	type: 'string',
-  	description: '(required) Which operationg system - osx, linux, windows',
-  	example: "'node build.js --os=osx'"
-  },
-  {
-  	name: 'env',
-  	type: 'string',
-  	description: 'Which environment - dev (default), staging',
-  	example: "'node build.js --env=dev'"
-  },
+    name: 'os',
+    type: 'string',
+    description: '(required) Which operationg system - osx, linux, windows',
+    example: "'node build.js --os=osx'"
+  }
 ]);
 
 const args = argv.run();
-const env = args.options.env || 'dev';
-const os = args.options.os;
-
-if (!os) {
-  console.log('os option is required');
-  process.exit(1);
+const os = args.options.os || args.targets[0];
+if(!os){
+  console.log('please add os as parameter');
+  console.log('npm run build mac [windows, mac, linux]');
 }
-
-if (env === 'staging') {
-  config.appUrl = 'https://staging.swipesapp.com';
-  config.env = 'staging';
-  jsonfile.writeFileSync('./config.json', config, {spaces: 2});
-}
-
-if (env === 'production') {
-  config.appUrl = 'https://dev.swipesapp.com';
-  config.env = 'production';
-  jsonfile.writeFileSync('./config.json', config, {spaces: 2});
-}
-
-const osOptions = {
-  linux: {
-    arch: 'all',
-    dir: '.',
-    platform: 'linux',
-    name: 'Swipes Workspace',
-    out: './builds'
-  },
-  windows: {
-    arch: 'all',
-    dir: '.',
-    platform: 'win32',
-    icon: './icons/logo.ico',
-    name: 'Swipes Workspace',
-    out: './builds'
-  },
-  osx: {
-    arch: 'all',
-    dir: '.',
-    platform: 'darwin',
-    icon: './icons/logo.icns',
-    name: 'Swipes Workspace',
-    out: './builds'
+else {
+  if (process.env.NODE_ENV === 'production') {
+    config.appUrl = 'https://staging.swipesapp.com';
+    config.env = 'production';
+    jsonfile.writeFileSync('./config.json', config, {spaces: 2});
   }
-}
+  const defOptions = {
+    arch: 'all',
+    dir: '.',
+    overwrite: true,
+    name: 'Swipes',
+    out: './dist'
+  };
+  const osOptions = {
+    linux: Object.assign({
+      platform: 'linux'
+    }, defOptions),
+    windows: Object.assign({
+      platform: 'win32',
+      icon: './icons/logo.ico'
+    }, defOptions),
+    osx: Object.assign({
+      platform: 'darwin',
+      icon: './icons/logo.icns'
+    }, defOptions)
+  }
+  osOptions.win = osOptions.windows;
+  osOptions.mac = osOptions.darwin = osOptions.osx;
 
-const buildOptions = osOptions[os];
+  const buildOptions = osOptions[os];
+  if (!buildOptions) {
+    console.log('unknown os. Supported: [mac, osx, darwin, win, windows, linux]');
+  }
+  else {
+    packager(buildOptions, function done_callback (err, appPaths) {
+      // Reset the config
+      jsonfile.writeFileSync('./config.json', origConfig, {spaces: 2});
 
-packager(buildOptions, function done_callback (err, appPaths) {
-  // Reset the config
-  jsonfile.writeFileSync('./config.json', origConfig, {spaces: 2});
+      if (err) {
+        console.log(err);
+        process.exit(1);
+      }
 
-  if (err) {
-    console.log(err);
-    process.exit(1);
+      console.log('ALL DONE');
+    })
   }
 
-  console.log('ALL DONE');
-})
+}

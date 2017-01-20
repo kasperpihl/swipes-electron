@@ -10,9 +10,10 @@ window.swStatus = {
 const handleUnreads = (turnoffLoading) => {
   let counter = 0;
   let unread = 0;
-  const counters = [...document.getElementsByClassName('unread_highlights')].map((el) => (
-    parseInt(el.innerHTML, 10)
-  ))
+  const counters = [...document.getElementsByClassName('unread_highlights')].map((el) => {
+    const string = el.innerHTML.replace(/^\s+|\s+$/g, '');
+    return string.length ? parseInt(string, 10) : 0;
+  })
 
   if(counters.length){
     counter = counters[0];

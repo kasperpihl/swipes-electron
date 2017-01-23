@@ -20,7 +20,6 @@
     "appdmg": "^0.4.5"
   },
   "devDependencies": {
-    "electron": "^1.4.3",
-    "electron-prebuilt": "^1.4.13"
+    "electron": "^1.4.15"
   }
 }

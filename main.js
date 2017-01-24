@@ -15,8 +15,9 @@ const {
   ipcMain
 } = electron;
 const currentAppState = appState.get();
-
 let win;
+
+app.commandLine.appendSwitch('force-device-scale-factor', 4);
 
 const createWindow = () => {
   const winOptions = {

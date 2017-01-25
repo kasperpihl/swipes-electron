@@ -1,12 +1,21 @@
-console.log('running!');
 var {ipcRenderer} = require('electron');
 window.sendToSwipes = (data) => {
   ipcRenderer.sendToHost('message', data);
 }
+ipcRenderer.on('message', (sender, data) => {
+  if(data && data.type === 'open'){
+    const ref = document.querySelector('#channels_scroller a[data-member-id="' + data.id + '"]');
+    if(ref){
+      ref.click();
+    }
+  }
+})
+
 window.swStatus = {
   counter: 0,
   unread: 0
 };
+
 const handleUnreads = (turnoffLoading) => {
   let counter = 0;
   let unread = 0;
@@ -34,7 +43,6 @@ const handleUnreads = (turnoffLoading) => {
     swStatus.counter = counter;
     sendToSwipes(swStatus);
   }
-  console.log('number', counter, unread);
 }
 window.loadObserver = new MutationObserver(() => {
   if(document.getElementById('channels_scroller')){

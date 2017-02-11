@@ -1,6 +1,6 @@
 var app = require('electron').app;
 
-module.exports = function(mainWindow) {
+module.exports = function(mainWindow, reloadCB) {
   var template = [
     {
       label: 'Edit',
@@ -69,7 +69,7 @@ module.exports = function(mainWindow) {
           accelerator: 'CmdOrCtrl+R',
           click: function(item, focusedWindow) {
             if (focusedWindow)
-              focusedWindow.reload();
+              reloadCB();
           }
         },
         {

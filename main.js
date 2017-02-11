@@ -65,7 +65,9 @@ const createWindow = () => {
     win = null;
   });
 
-  Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu(win)));
+  Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu(win, () => {
+    win.loadURL(config.appUrl);
+  })));
 
   const webContents = win.webContents;
 

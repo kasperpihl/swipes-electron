@@ -29,7 +29,9 @@ const createWindow = () => {
     acceptFirstMouse: true,
     icon: './icons/logo.png',
     webPreferences: {
-      preload: __dirname + '/preload/main-preload.js'
+      preload: __dirname + '/preload/main-preload.js',
+      // overlayScrollbars: true,
+      blinkFeatures: 'OverlayScrollbars',
     }
   };
 

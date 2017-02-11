@@ -29,6 +29,7 @@ const createWindow = () => {
     acceptFirstMouse: true,
     icon: './icons/logo.png',
     webPreferences: {
+      blinkFeatures: 'OverlayScrollbars',
       preload: __dirname + '/preload/main-preload.js'
     }
   };

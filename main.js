@@ -30,7 +30,6 @@ const createWindow = () => {
     icon: './icons/logo.png',
     webPreferences: {
       preload: __dirname + '/preload/main-preload.js',
-      // overlayScrollbars: true,
       blinkFeatures: 'OverlayScrollbars',
     }
   };

@@ -29,8 +29,8 @@ const createWindow = () => {
     acceptFirstMouse: true,
     icon: './icons/logo.png',
     webPreferences: {
-      preload: __dirname + '/preload/main-preload.js',
       blinkFeatures: 'OverlayScrollbars',
+      preload: __dirname + '/preload/main-preload.js'
     }
   };
 
@@ -66,7 +66,9 @@ const createWindow = () => {
     win = null;
   });
 
-  Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu(win)));
+  Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu(win, () => {
+    win.loadURL(config.appUrl);
+  })));
 
   const webContents = win.webContents;
 

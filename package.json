@@ -20,6 +20,6 @@
     "appdmg": "^0.4.5"
   },
   "devDependencies": {
-    "electron": "^1.4.15"
+    "electron": "^1.6.0"
   }
 }

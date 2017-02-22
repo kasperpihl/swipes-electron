@@ -10,8 +10,7 @@
   },
   "dependencies": {
     "argv": "0.0.2",
-    "electron-packager": "8.1.0",
-    "electron-prebuilt": "^1.4.13",
+    "electron-packager": "8.5.2",
     "jsonfile": "^2.3.1",
     "node-notifier": "^4.6.1",
     "shortid": "^2.2.6"

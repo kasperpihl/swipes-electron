@@ -118,6 +118,9 @@ app.on('activate', () => {
     createWindow();
   }
 });
+ipcMain.on('reload', (event, arg) => {
+  win.loadURL(config.appUrl);
+})
 ipcMain.on('notification', (event, arg) => {
   notifier.notify(arg);
 })

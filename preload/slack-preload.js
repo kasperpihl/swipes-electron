@@ -4,12 +4,18 @@ window.sendToSwipes = (data) => {
 }
 ipcRenderer.on('message', (sender, data) => {
   if(data && data.type === 'open'){
-    const ref = document.querySelector('#channels_scroller a[data-member-id="' + data.id + '"]');
+
+    const ref = document.querySelector('#channels_scroller *[data-member-id="' + data.id + '"]');
     if(ref){
       ref.click();
     }
   }
 })
+setTimeout(() => {
+  // Like button submission!
+  //document.getElementById('msg_input').value = ':+1:'
+  //TS.view.submit();
+}, 5000)
 
 window.swStatus = {
   counter: 0,

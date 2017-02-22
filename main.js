@@ -23,7 +23,7 @@ const createWindow = () => {
     height: currentAppState.height,
     titleBarStyle: 'hidden-inset',
     frame: false,
-    minWidth: 800,
+    minWidth: 1000,
     minHeight: 600,
     title: 'Swipes',
     acceptFirstMouse: true,

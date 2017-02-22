@@ -24,6 +24,7 @@ const createWindow = () => {
     titleBarStyle: 'hidden-inset',
     frame: false,
     minWidth: 1000,
+    backgroundColor: '#cce4ff',
     minHeight: 600,
     title: 'Swipes',
     acceptFirstMouse: true,

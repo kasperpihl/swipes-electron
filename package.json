@@ -1,7 +1,7 @@
 {
   "name": "Swipes",
   "productName": "Swipes",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "main.js",
   "scripts": {
     "dmg": "node node_modules/appdmg/bin/appdmg.js './dmg/spec.json' 'dist/Swipes-darwin-x64/Swipes.dmg' --verbose",

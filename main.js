@@ -14,10 +14,10 @@ const {
   Menu,
   ipcMain
 } = electron;
-const currentAppState = appState.get();
 let win;
 
 const createWindow = () => {
+  const currentAppState = appState.get();
   const winOptions = {
     width: currentAppState.width,
     height: currentAppState.height,

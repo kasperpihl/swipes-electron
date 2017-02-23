@@ -8,22 +8,24 @@ const defaultMenu = require('./menu.js');
 const appState = require('./app-state.js');
 const env = config.env || 'dev';
 
+global.version = require('./package.json').version;
 const {
   app,
   BrowserWindow,
   Menu,
   ipcMain
 } = electron;
-const currentAppState = appState.get();
 let win;
 
 const createWindow = () => {
+  const currentAppState = appState.get();
   const winOptions = {
     width: currentAppState.width,
     height: currentAppState.height,
     titleBarStyle: 'hidden-inset',
     frame: false,
-    minWidth: 800,
+    minWidth: 1000,
+    backgroundColor: '#cce4ff',
     minHeight: 600,
     title: 'Swipes',
     acceptFirstMouse: true,
@@ -118,6 +120,9 @@ app.on('activate', () => {
     createWindow();
   }
 });
+ipcMain.on('reload', (event, arg) => {
+  win.loadURL(config.appUrl);
+})
 ipcMain.on('notification', (event, arg) => {
   notifier.notify(arg);
 })

@@ -98,6 +98,22 @@ module.exports = function(mainWindow, reloadCB) {
               focusedWindow.toggleDevTools();
           }
         },
+        {
+          label: 'Danger Zone',
+          submenu: [
+            {
+              label: 'Reset app state',
+              click: function() {
+                const ses = mainWindow.webContents.session;
+                ses.clearCache(function(){
+                  ses.clearStorageData(function(){
+                    reloadCB();
+                  });
+                });
+              }
+            }
+          ]
+        }
       ]
     },
     {

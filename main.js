@@ -8,6 +8,7 @@ const defaultMenu = require('./menu.js');
 const appState = require('./app-state.js');
 const env = config.env || 'dev';
 
+global.version = require('./package.json').version;
 const {
   app,
   BrowserWindow,

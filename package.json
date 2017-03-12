@@ -10,13 +10,11 @@
   },
   "dependencies": {
     "argv": "0.0.2",
+    "electron-osx-sign": "^0.4.4",
     "electron-packager": "8.5.2",
     "jsonfile": "^2.3.1",
     "node-notifier": "^4.6.1",
     "shortid": "^2.2.6"
-  },
-  "optionalDependencies": {
-    "appdmg": "^0.4.5"
   },
   "devDependencies": {
     "electron": "^1.6.0"

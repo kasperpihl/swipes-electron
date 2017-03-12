@@ -44,6 +44,8 @@ else {
     }, defOptions),
     osx: Object.assign({
       platform: 'darwin',
+      'app-version': '0.0.4',
+      'app-bundle-id': 'com.swipesapp.Swipes',
       icon: './icons/logo.icns'
     }, defOptions)
   }
@@ -65,37 +67,29 @@ else {
       }
       if(buildOptions.platform === 'darwin'){
         console.log('Packaged App. Now creating DMG');
-        var appdmg = require('appdmg');
-        var ee = appdmg({
-          source: './dmg/spec.json',
-          target: 'dist/Swipes-darwin-x64/Swipes.dmg',
-        });
-        ee.on('progress', function (info) {
-          if(info.title){
-            console.log('[ ' + info.current + '/' + info.total + '] ' + info.title);
+        var sign = require('electron-osx-sign')
+        sign({
+          app: 'dist/Swipes-darwin-x64/Swipes.app'
+        }, function done (err) {
+
+          console.log('signing', err || 'no errors');
+          if (err) {
+            // Handle the error
+            return;
           }
+          // Application signed
+          var flat = require('electron-osx-sign').flat;
+          flat({
+            app: 'dist/Swipes-darwin-x64/Swipes.app'
+          }, function done (err) {
+            console.log('create installer', err || 'no errors');
+            if(!err){
+              console.log('ALL DONE');
+            }
+          })
 
-          // info.current is the current step
-          // info.total is the total number of steps
-          // info.type is on of 'step-begin', 'step-end'
 
-          // 'step-begin'
-          // info.title is the title of the current step
-
-          // 'step-end'
-          // info.status is one of 'ok', 'skip', 'fail'
-
-        });
-
-        ee.on('finish', function () {
-          console.log('ALL DONE');
-          // There now is a `test.dmg` file
-        });
-
-        ee.on('error', function (err) {
-          console.log('Error making DMG', err);
-          // An error occurred
-        });
+        })
       }
       else{
         console.log('ALL DONE');

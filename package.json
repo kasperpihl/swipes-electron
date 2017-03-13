@@ -1,6 +1,7 @@
 {
   "name": "Swipes",
   "productName": "Swipes",
+  "description": "Swipes Workspace",
   "version": "0.0.4",
   "main": "main.js",
   "scripts": {

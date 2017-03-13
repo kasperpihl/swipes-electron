@@ -65,20 +65,21 @@ else {
         console.log(err);
         process.exit(1);
       }
-      if(buildOptions.platform === 'darwin'){
+      if (buildOptions.platform === 'darwin') {
         console.log('Packaged App. Now creating DMG');
-        var sign = require('electron-osx-sign')
+        const sign = require('electron-osx-sign');
+
         sign({
           app: 'dist/Swipes-darwin-x64/Swipes.app'
         }, function done (err) {
-
           console.log('signing', err || 'no errors');
           if (err) {
             // Handle the error
             return;
           }
           // Application signed
-          var flat = require('electron-osx-sign').flat;
+          const flat = require('electron-osx-sign').flat;
+
           flat({
             app: 'dist/Swipes-darwin-x64/Swipes.app'
           }, function done (err) {
@@ -87,15 +88,27 @@ else {
               console.log('ALL DONE');
             }
           })
-
-
         })
       }
-      else{
+      if (buildOptions.platform === 'win32') {
+        console.log('Packaged App. Now creating windiows installer');
+        const installer = require('electron-installer-windows');
+        const options = {
+          src: 'dist/Swipes-win32-x64/',
+          dest: 'builds/installers/',
+        }
+
+        installer(options, function (err) {
+          if (err) {
+            console.error(err, err.stack)
+            process.exit(1)
+          }
+
+          console.log('Successfully created package at ' + options.dest)
+        })
+      } else {
         console.log('ALL DONE');
       }
-
     })
   }
-
 }

@@ -92,20 +92,23 @@ else {
       }
       if (buildOptions.platform === 'win32') {
         console.log('Packaged App. Now creating windiows installer');
-        const installer = require('electron-installer-windows');
+        const electronInstaller = require('electron-winstaller');
         const options = {
-          src: 'dist/Swipes-win32-x64/',
-          dest: 'builds/installers/',
+          appDirectory: 'dist/Swipes-win32-x64/',
+          outputDirectory: 'builds/installers/',
+          authors: 'Swipes Inc.',
+          exe: 'Swipes.exe'
         }
 
-        installer(options, function (err) {
-          if (err) {
-            console.error(err, err.stack)
-            process.exit(1)
-          }
-
-          console.log('Successfully created package at ' + options.dest)
-        })
+        resultPromise = electronInstaller.createWindowsInstaller(options)
+          .then(() => {
+            console.log('Successfully created package at ' + options.outputDirectory);
+          }, (err) => {
+            if (err) {
+              console.error(err, err.stack);
+              process.exit(1);
+            }
+          });
       } else {
         console.log('ALL DONE');
       }

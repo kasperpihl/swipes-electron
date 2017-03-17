@@ -81,6 +81,7 @@ else {
           const flat = require('electron-osx-sign').flat;
 
           flat({
+            pkg: 'dist/Swipes-darwin-x64/SwipesInstaller.pkg',
             app: 'dist/Swipes-darwin-x64/Swipes.app'
           }, function done (err) {
             console.log('create installer', err || 'no errors');

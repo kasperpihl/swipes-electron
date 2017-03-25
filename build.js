@@ -22,8 +22,13 @@ if(!os){
   console.log('npm run build mac [windows, mac, linux]');
 }
 else {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === 'staging') {
     config.appUrl = 'https://staging.swipesapp.com';
+    config.env = 'staging';
+    jsonfile.writeFileSync('./config.json', config, {spaces: 2});
+  }
+  if (process.env.NODE_ENV === 'production') {
+    config.appUrl = 'https://live.swipesapp.com';
     config.env = 'production';
     jsonfile.writeFileSync('./config.json', config, {spaces: 2});
   }

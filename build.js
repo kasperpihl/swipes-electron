@@ -2,6 +2,7 @@
 
 const argv = require('argv');
 const packager = require('electron-packager');
+const version = require('./package.json').version;
 const jsonfile = require('jsonfile');
 const config = require('./config.json');
 const origConfig = Object.assign({}, config);
@@ -49,17 +50,17 @@ else {
     }, defOptions),
     osx: Object.assign({
       platform: 'darwin',
-      'app-version': '0.0.4',
+      'app-version': version,
       'app-bundle-id': 'com.swipesapp.Swipes',
       icon: './icons/logo.icns'
     }, defOptions)
   }
-  osOptions.win = osOptions.windows;
+  osOptions.win = osOptions.win32 = osOptions.windows;
   osOptions.mac = osOptions.darwin = osOptions.osx;
 
   const buildOptions = osOptions[os];
   if (!buildOptions) {
-    console.log('unknown os. Supported: [mac, osx, darwin, win, windows, linux]');
+    console.log('unknown os. Supported: [mac, osx, darwin, win, win32, windows, linux]');
   }
   else {
     packager(buildOptions, function done_callback (err, appPaths) {

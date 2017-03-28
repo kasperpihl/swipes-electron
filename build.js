@@ -103,7 +103,7 @@ else {
         const options = {
           appDirectory: 'dist/Swipes-win32-x64/',
           outputDirectory: 'builds/installers/',
-          authors: 'Swipes Inc.',
+          authors: 'Swipes Incorporated',
           exe: 'Swipes.exe'
         }
 

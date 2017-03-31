@@ -15,7 +15,8 @@ argv.option([
     example: "'node build.js --os=osx'"
   }
 ]);
-
+let name = 'Swipes';
+let bundleId = 'com.swipesapp.mac';
 const args = argv.run();
 const os = args.options.os || args.targets[0];
 if(!os){
@@ -26,6 +27,8 @@ else {
   if (process.env.NODE_ENV === 'staging') {
     config.appUrl = 'https://staging.swipesapp.com';
     config.env = 'staging';
+    name += 'Staging';
+    bundleId += 'staging';
     jsonfile.writeFileSync('./config.json', config, {spaces: 2});
   }
   if (process.env.NODE_ENV === 'production') {
@@ -37,7 +40,7 @@ else {
     arch: 'all',
     dir: '.',
     overwrite: true,
-    name: 'Swipes',
+    name,
     out: './dist'
   };
   const osOptions = {
@@ -50,8 +53,8 @@ else {
     }, defOptions),
     osx: Object.assign({
       platform: 'darwin',
-      'app-version': version,
-      'app-bundle-id': 'com.swipesapp.Swipes',
+      'appVersion': version,
+      'appBundleId': bundleId,
       icon: './icons/logo.icns'
     }, defOptions)
   }
@@ -72,39 +75,41 @@ else {
         process.exit(1);
       }
       if (buildOptions.platform === 'darwin') {
-        console.log('Packaged App. Now creating DMG');
+        console.log('Packaged App. Signing..');
         const sign = require('electron-osx-sign');
 
         sign({
-          app: 'dist/Swipes-darwin-x64/Swipes.app'
+          app: 'dist/' + name + '-darwin-x64/' + name + '.app'
         }, function done (err) {
-          console.log('signing', err || 'no errors');
+
           if (err) {
+            console.log('Error signing', err);
             // Handle the error
             return;
           }
+          console.log('Signed App. Creating installer..');
           // Application signed
           const flat = require('electron-osx-sign').flat;
-
           flat({
-            pkg: 'dist/Swipes-darwin-x64/SwipesInstaller.pkg',
-            app: 'dist/Swipes-darwin-x64/Swipes.app'
+            pkg: 'dist/' + name + '-darwin-x64/' + name +'Installer.pkg',
+            app: 'dist/' + name + '-darwin-x64/' + name + '.app'
           }, function done (err) {
-            console.log('create installer', err || 'no errors');
             if(!err){
               console.log('ALL DONE');
+            } else {
+              console.log('Error creating installer', err);
             }
           })
+
         })
-      }
-      if (buildOptions.platform === 'win32') {
+      } else if (buildOptions.platform === 'win32') {
         console.log('Packaged App. Now creating windiows installer');
         const electronInstaller = require('electron-winstaller');
         const options = {
-          appDirectory: 'dist/Swipes-win32-x64/',
+          appDirectory: 'dist/' + name + '-win32-x64/',
           outputDirectory: 'builds/installers/',
           authors: 'Swipes Incorporated',
-          exe: 'Swipes.exe'
+          exe: name + '.exe'
         }
 
         resultPromise = electronInstaller.createWindowsInstaller(options)

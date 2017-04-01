@@ -3,7 +3,7 @@ const shortId = require('shortid');
 const fs = require('fs');
 const shell = require('electron').shell;
 const config = require('./config.json');
-const NotificationCenter = require('node-notifier').NotificationCenter;
+const notifier = require('node-notifier');
 const defaultMenu = require('./menu.js');
 const appState = require('./app-state.js');
 const env = config.env || 'dev';
@@ -16,9 +16,6 @@ const {
   ipcMain
 } = electron;
 let win;
-const notifier = new NotificationCenter({
-  withFallback: true,
-})
 
 const createWindow = () => {
   const currentAppState = appState.get();
@@ -77,7 +74,7 @@ const createWindow = () => {
 
   const webContents = win.webContents;
 
-  webContents.on('new-window', function(event, url){
+  webContents.on('new-window', function (event, url) {
     event.preventDefault();
     shell.openExternal(url);
   });
@@ -110,7 +107,7 @@ const createWindow = () => {
   })
 }
 
-if(require('electron-squirrel-startup')) app.quit();
+if (require('electron-squirrel-startup')) app.quit();
 
 app.on('ready', createWindow);
 
@@ -134,12 +131,12 @@ ipcMain.on('notification', (event, notification) => {
 
 ipcMain.on('showItemInFolder', (event, arg) => {
 
-  try{
+  try {
     fs.statSync(arg);
     event.returnValue = true;
     shell.showItemInFolder(arg);
   }
-  catch(e){
+  catch (e) {
     event.returnValue = false;
     console.log('could not find file');
   }

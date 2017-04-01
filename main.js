@@ -3,7 +3,7 @@ const shortId = require('shortid');
 const fs = require('fs');
 const shell = require('electron').shell;
 const config = require('./config.json');
-const notifier = require('node-notifier');
+const NotificationCenter = require('node-notifier').NotificationCenter;
 const defaultMenu = require('./menu.js');
 const appState = require('./app-state.js');
 const env = config.env || 'dev';
@@ -16,6 +16,9 @@ const {
   ipcMain
 } = electron;
 let win;
+const notifier = new NotificationCenter({
+  withFallback: true,
+})
 
 const createWindow = () => {
   const currentAppState = appState.get();
@@ -125,8 +128,8 @@ app.on('activate', () => {
 ipcMain.on('reload', (event, arg) => {
   win.loadURL(config.appUrl);
 })
-ipcMain.on('notification', (event, arg) => {
-  notifier.notify(arg);
+ipcMain.on('notification', (event, notification) => {
+  notifier.notify(notification);
 })
 
 ipcMain.on('showItemInFolder', (event, arg) => {

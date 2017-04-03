@@ -19,7 +19,7 @@ let name = 'Swipes';
 let bundleId = 'com.swipesapp.mac';
 const args = argv.run();
 const os = args.options.os || args.targets[0];
-if(!os){
+if (!os) {
   console.log('please add os as parameter');
   console.log('npm run build mac [windows, mac, linux]');
 }
@@ -29,12 +29,12 @@ else {
     config.env = 'staging';
     name += 'Staging';
     bundleId += 'staging';
-    jsonfile.writeFileSync('./config.json', config, {spaces: 2});
+    jsonfile.writeFileSync('./config.json', config, { spaces: 2 });
   }
   if (process.env.NODE_ENV === 'production') {
     config.appUrl = 'https://live.swipesapp.com';
     config.env = 'production';
-    jsonfile.writeFileSync('./config.json', config, {spaces: 2});
+    jsonfile.writeFileSync('./config.json', config, { spaces: 2 });
   }
   const defOptions = {
     arch: 'all',
@@ -66,9 +66,9 @@ else {
     console.log('unknown os. Supported: [mac, osx, darwin, win, win32, windows, linux]');
   }
   else {
-    packager(buildOptions, function done_callback (err, appPaths) {
+    packager(buildOptions, function done_callback(err, appPaths) {
       // Reset the config
-      jsonfile.writeFileSync('./config.json', origConfig, {spaces: 2});
+      jsonfile.writeFileSync('./config.json', origConfig, { spaces: 2 });
 
       if (err) {
         console.log(err);
@@ -80,7 +80,7 @@ else {
 
         sign({
           app: 'dist/' + name + '-darwin-x64/' + name + '.app'
-        }, function done (err) {
+        }, function done(err) {
 
           if (err) {
             console.log('Error signing', err);
@@ -91,10 +91,10 @@ else {
           // Application signed
           const flat = require('electron-osx-sign').flat;
           flat({
-            pkg: 'dist/' + name + '-darwin-x64/' + name +'Installer.pkg',
+            pkg: 'dist/' + name + '-darwin-x64/' + name + 'Installer.pkg',
             app: 'dist/' + name + '-darwin-x64/' + name + '.app'
-          }, function done (err) {
-            if(!err){
+          }, function done(err) {
+            if (!err) {
               console.log('ALL DONE');
             } else {
               console.log('Error creating installer', err);
@@ -112,7 +112,7 @@ else {
           exe: name + '.exe'
         }
 
-        resultPromise = electronInstaller.createWindowsInstaller(options)
+        const resultPromise = electronInstaller.createWindowsInstaller(options)
           .then(() => {
             console.log('Successfully created package at ' + options.outputDirectory);
           }, (err) => {

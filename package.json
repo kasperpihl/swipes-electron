@@ -2,7 +2,7 @@
   "name": "Swipes",
   "productName": "Swipes",
   "description": "Swipes Workspace",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "main.js",
   "scripts": {
     "dmg": "node node_modules/appdmg/bin/appdmg.js './dmg/spec.json' 'dist/Swipes-darwin-x64/Swipes.dmg' --verbose",

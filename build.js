@@ -44,19 +44,21 @@ else {
     out: './dist'
   };
   const osOptions = {
-    linux: Object.assign({
-      platform: 'linux'
-    }, defOptions),
-    windows: Object.assign({
+    linux: Object.assign({}, defOptions, {
+      platform: 'linux',
+      arch: 'ia32',
+    }),
+    windows: Object.assign({}, defOptions, {
       platform: 'win32',
-      icon: './icons/logo.ico'
-    }, defOptions),
-    osx: Object.assign({
+      icon: './icons/logo.ico',
+      arch: 'ia32'
+    }),
+    osx: Object.assign({}, defOptions, {
       platform: 'darwin',
       'appVersion': version,
       'appBundleId': bundleId,
       icon: './icons/logo.icns'
-    }, defOptions)
+    })
   }
   osOptions.win = osOptions.win32 = osOptions.windows;
   osOptions.mac = osOptions.darwin = osOptions.osx;
@@ -74,6 +76,7 @@ else {
         console.log(err);
         process.exit(1);
       }
+      console.log(buildOptions);
       if (buildOptions.platform === 'darwin') {
         console.log('Packaged App. Signing..');
         const sign = require('electron-osx-sign');

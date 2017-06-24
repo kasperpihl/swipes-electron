@@ -4,20 +4,27 @@ const fs = require('fs');
 const filePath = path.join(app.getPath('userData'), 'app-state.json');
 const defaultState = {
   width: 900,
-  height: 700
+  height: 700,
+  x: 0,
+  y: 0,
 }
 let timeout = null;
 
-const createFileIfDoesNotExistsSync = () => {
+const createFileIfDoesNotExistsSync = ({ width, height }) => {
+  const newDefaultState = Object.assign({}, defaultState, {
+    width,
+    height,
+  });
+
   try {
     fs.accessSync(filePath);
   } catch (e) {
-    fs.writeFileSync(filePath, JSON.stringify(defaultState), 'utf8');
+    fs.writeFileSync(filePath, JSON.stringify(newDefaultState), 'utf8');
   }
 }
 
-const get = () => {
-  createFileIfDoesNotExistsSync();
+const get = ({ width, height }) => {
+  createFileIfDoesNotExistsSync({ width, height });
   const state = fs.readFileSync(filePath, 'utf8');
 
   return JSON.parse(state);

@@ -18,7 +18,8 @@ const {
 let win;
 
 const createWindow = () => {
-  const currentAppState = appState.get();
+  const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
+  const currentAppState = appState.get({ width, height });
   const winOptions = {
     width: currentAppState.width,
     height: currentAppState.height,

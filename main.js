@@ -39,6 +39,44 @@ const createWindow = () => {
 
   win = new BrowserWindow(winOptions);
   win.setBounds(Object.assign(win.getBounds(), currentAppState), true);
+  if (process.platform !== 'darwin') {
+    var shouldQuit = app.makeSingleInstance(function () {
+        // Someone tried to run a second instance, we should focus our window.
+        if (win) {
+            win.show();
+            win.focus();
+        }
+    });
+
+    if (shouldQuit) {
+        app.quit();
+    }
+  }
+
+  win.on('close', function (event) {
+    if (win.forceClose) {
+        return;
+    }
+    event.preventDefault();
+    if (win.isFullScreen()) {
+        win.once('leave-full-screen', () => {
+            win.hide();
+        });
+        win.setFullScreen(false);
+    } else {
+        win.hide();
+    }
+  });
+
+  app.on('before-quit', function () {
+      win.forceClose = true;
+  });
+
+  app.on('activate', function () {
+      win.show();
+  });
+
+
   win.loadURL(config.appUrl);
 
   if (currentAppState.maximized) {
@@ -64,10 +102,6 @@ const createWindow = () => {
   win.on('move', () => {
     appState.save(win);
   })
-
-  win.on('closed', () => {
-    win = null;
-  });
 
   Menu.setApplicationMenu(Menu.buildFromTemplate(defaultMenu(win, () => {
     win.loadURL(config.appUrl);
@@ -108,21 +142,11 @@ const createWindow = () => {
   })
 }
 
-if (require('electron-squirrel-startup')) app.quit();
-
 app.on('ready', createWindow);
-
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
+app.on('window-all-closed', function () {
     app.quit();
-  }
 });
 
-app.on('activate', () => {
-  if (win === null) {
-    createWindow();
-  }
-});
 ipcMain.on('reload', (event, arg) => {
   win.loadURL(config.appUrl);
 })

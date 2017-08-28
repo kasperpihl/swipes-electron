@@ -2,6 +2,7 @@
 
 const argv = require('argv');
 const packager = require('electron-packager');
+const debianInstaller = require('electron-installer-debian')
 const version = require('./package.json').version;
 const jsonfile = require('jsonfile');
 const config = require('./config.json');
@@ -46,7 +47,7 @@ else {
   const osOptions = {
     linux: Object.assign({}, defOptions, {
       platform: 'linux',
-      arch: 'ia32',
+      arch: 'x64'
     }),
     windows: Object.assign({}, defOptions, {
       platform: 'win32',
@@ -124,7 +125,26 @@ else {
               process.exit(1);
             }
           });
-      } else {
+      } else if(buildOptions.platform === 'linux') {
+
+        var debOptions = {
+          src: 'dist/' + name + '-linux-x64/',
+          dest: 'dist/installers/',
+          arch: 'amd64'
+        }
+
+        console.log('Creating package (this may take a while)')
+
+        debianInstaller(debOptions, function (err) {
+          if (err) {
+            console.error(err, err.stack)
+            process.exit(1)
+          }
+
+          console.log('Successfully created package at ' + debOptions.dest)
+        })
+      }
+      else {
         console.log('ALL DONE');
       }
     })

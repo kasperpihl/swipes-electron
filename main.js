@@ -16,15 +16,16 @@ const {
   ipcMain
 } = electron;
 let win;
-
+const platVar = require('os').platform();
 const createWindow = () => {
   const { width, height } = electron.screen.getPrimaryDisplay().workAreaSize;
   const currentAppState = appState.get({ width, height });
   const winOptions = {
     width: currentAppState.width,
     height: currentAppState.height,
-    titleBarStyle: 'hidden-inset',
-    frame: false,
+    titleBarStyle: 'hiddenInset',
+    autoHideMenuBar: true,
+    frame: (platVar === 'linux'),
     minWidth: 1000,
     backgroundColor: '#cce4ff',
     minHeight: 600,

@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "electron": "^1.6.11",
+    "electron-installer-debian": "^0.5.2",
     "electron-winstaller": "^2.5.2"
   }
 }

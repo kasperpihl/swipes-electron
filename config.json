@@ -1,3 +1,4 @@
 {
-  "appUrl": "http://localhost:3000"
+  "appUrl": "https://workspace.swipesapp.com",
+  "env": "production"
 }

@@ -33,7 +33,7 @@ else {
     jsonfile.writeFileSync('./config.json', config, { spaces: 2 });
   }
   if (process.env.NODE_ENV === 'production') {
-    config.appUrl = 'https://live.swipesapp.com';
+    config.appUrl = 'https://workspace.swipesapp.com';
     config.env = 'production';
     jsonfile.writeFileSync('./config.json', config, { spaces: 2 });
   }

@@ -37,28 +37,7 @@ module.exports = function(mainWindow, reloadCB) {
           label: 'Select All',
           accelerator: 'CmdOrCtrl+A',
           role: 'selectall'
-        },
-        {
-          type: 'separator'
-        },
-        {
-          label: 'Find',
-          accelerator: 'CmdOrCtrl+F',
-          click: function(item, focusedWindow) {
-            if (focusedWindow) {
-              mainWindow.webContents.send('toggle-find');
-            }
-          }
-        },
-        {
-          label: 'New tile',
-          accelerator: 'CmdOrCtrl+N',
-          click: function(item, focusedWindow) {
-            if (focusedWindow) {
-              mainWindow.webContents.send('new-tile');
-            }
-          }
-        },
+        }
       ]
     },
     {
@@ -107,6 +86,7 @@ module.exports = function(mainWindow, reloadCB) {
                 const ses = mainWindow.webContents.session;
                 ses.clearCache(function(){
                   ses.clearStorageData(function(){
+                    mainWindow.webContents.send('clear');
                     reloadCB();
                   });
                 });
@@ -120,6 +100,18 @@ module.exports = function(mainWindow, reloadCB) {
       label: 'Window',
       role: 'window',
       submenu: [
+        {
+          label: 'Find',
+          accelerator: 'CmdOrCtrl+F',
+          click: function(item, focusedWindow) {
+            if (focusedWindow) {
+              mainWindow.webContents.send('toggle-find');
+            }
+          }
+        },
+        {
+          type: 'separator'
+        },
         {
           label: 'Minimize',
           accelerator: 'CmdOrCtrl+M',

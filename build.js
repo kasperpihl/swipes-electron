@@ -113,7 +113,7 @@ else {
           appDirectory: 'dist/' + name + '-win32-x64/',
           outputDirectory: 'builds/installers/',
           authors: 'Swipes Incorporated',
-          exe: `${name} (${version}).exe`;
+          exe: `${name} (${version}).exe`,
         }
 
         const resultPromise = electronInstaller.createWindowsInstaller(options)
